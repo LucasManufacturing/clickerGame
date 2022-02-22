@@ -5,6 +5,7 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Clicker Game", sf::Style::Fullscreen);
 	window.setMouseCursorVisible(false); 
+	window.setFramerateLimit(30); 
 	clickerBrain clickerScreen; 
 	while (window.isOpen())
 	{

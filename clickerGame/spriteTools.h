@@ -10,7 +10,9 @@ public:
 	void setRelativeOrigin(sf::Vector2f);
 	void centre();
 	bool setTexture(std::string path);
-	sf::Vector2f getGlobalOrigin(); 
+	void setRelativePosition(sf::Vector2f); 
+	void setRelativePosition(float, float); 
+	bool setSprite(std::string); 
 protected:
 	sf::Vector2u textureSize;
 	bool imgError = false; 

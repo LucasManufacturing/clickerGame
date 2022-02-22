@@ -104,14 +104,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1\include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,18 +133,18 @@
   <ItemGroup>
     <ClCompile Include="button.cpp" />
     <ClCompile Include="clickerBrain.cpp" />
-    <ClCompile Include="clickerBtn.cpp" />
     <ClCompile Include="counter.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="modifier.cpp" />
     <ClCompile Include="spriteTools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h" />
     <ClInclude Include="clickerBrain.h" />
-    <ClInclude Include="clickerBtn.h" />
     <ClInclude Include="counter.h" />
     <ClInclude Include="cursor.h" />
+    <ClInclude Include="modifier.h" />
     <ClInclude Include="returnFrame.h" />
     <ClInclude Include="spriteTools.h" />
   </ItemGroup>

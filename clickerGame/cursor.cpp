@@ -3,7 +3,7 @@
 cursor::cursor()
 {
 	loadButtonFromImage("./sprites/hand.png"); 
-	setRelativeOrigin(sf::Vector2f{ 28.f / 64.f, 7.f / 64.f });//puts origin on cursor's finger
+	setRelativeOrigin(sf::Vector2f{ 22.f / 64.f, 7.f / 64.f });//puts origin on cursor's finger
 
 }
 

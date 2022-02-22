@@ -11,9 +11,23 @@ void button::pressed()
 	sprite[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
 	sprite[3].texCoords = sf::Vector2f(textureSize.x / 2, textureSize.y);
 }
-
+bool button::pressed(bool check)
+{
+	bool newPress = false; 
+	if (!activated)
+	{
+		sprite[0].texCoords = sf::Vector2f(textureSize.x / 2, 0.f);
+		sprite[1].texCoords = sf::Vector2f(textureSize.x, 0.f);
+		sprite[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
+		sprite[3].texCoords = sf::Vector2f(textureSize.x / 2, textureSize.y);
+		activated = true; 
+		newPress = true; 
+	}
+	return newPress;
+}
 void button::released()
 {
+	activated = false; 
 	sprite[0].texCoords = sf::Vector2f(0.f, 0.f);
 	sprite[1].texCoords = sf::Vector2f(textureSize.x / 2, 0.f);
 	sprite[2].texCoords = sf::Vector2f(textureSize.x / 2, textureSize.y);

@@ -6,12 +6,17 @@ void st::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.texture = &texture;
 	}
+	else
+	{
+		std::cout<<"\n img draw error\n";
+	}
 
 	target.draw(sprite, states);
 }
 
 bool st::setTexture(std::string path) //returns true if texture was loaded successfully
 {
+	sprite.clear();
 	if (!texture.loadFromFile(path))
 	{
 		std::cout << "\nError loading image:" << path << "\n";
@@ -31,8 +36,45 @@ bool st::setTexture(std::string path) //returns true if texture was loaded succe
 	{
 		std::cout << "\nImage: " << path << " loaded\n";
 		textureSize = texture.getSize();
+		imgError = false; 
 	}
 	return !imgError; 
+}
+
+bool st::setSprite(std::string path) //returns true if texture was loaded successfully
+{
+	sprite.clear();
+	if (!texture.loadFromFile(path))
+	{
+		std::cout << "\nError loading image:" << path << "\n";
+		texture.create(1, 1);
+		sprite = sf::VertexArray(sf::PrimitiveType::Quads, 4);
+		sprite[0].position = sf::Vector2f(0.f, 0.f);
+		sprite[1].position = sf::Vector2f(50.f, 0.f);
+		sprite[2].position = sf::Vector2f(50.f, 50.f);
+		sprite[3].position = sf::Vector2f(0.f, 50.f);
+		sprite[0].color = sf::Color::Magenta;
+		sprite[1].color = sf::Color::Magenta;
+		sprite[2].color = sf::Color::Magenta;
+		sprite[3].color = sf::Color::Magenta;
+		imgError = true;
+	}
+	else
+	{
+		std::cout << "\nImage: " << path << " loaded\n";
+		textureSize = texture.getSize();
+		sprite = sf::VertexArray(sf::PrimitiveType::Quads, 4);
+		sprite[0].position = sf::Vector2f(0.f, 0.f);
+		sprite[1].position = sf::Vector2f(textureSize.x, 0.f);
+		sprite[2].position = sf::Vector2f(textureSize.x, textureSize.y);
+		sprite[3].position = sf::Vector2f(0.f, textureSize.y);
+		sprite[0].texCoords = sf::Vector2f(0.f, 0.f);
+		sprite[1].texCoords = sf::Vector2f(textureSize.x, 0.f);
+		sprite[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
+		sprite[3].texCoords = sf::Vector2f(0.f, textureSize.y);
+		imgError = false;
+	}
+	return !imgError;
 }
 sf::FloatRect st::getGlobalBounds()//gets hitbox of sprite, returns a rectangle which should encompass drawn sprite
 {
@@ -62,4 +104,15 @@ void st::setRelativeOrigin(sf::Vector2f pos)
 void st::centre()
 {
 	setOrigin(sf::Vector2f{ (sprite[1].position.x - sprite[0].position.x) / 2, (sprite[2].position.y - sprite[0].position.y) / 2 });
+}
+
+void st::setRelativePosition(sf::Vector2f pos)
+{
+
+	setPosition(1920.f * pos.x, 1080.f * pos.y);
+}
+
+void st::setRelativePosition(float x, float y)
+{
+	setPosition(1920.f * x, 1080.f * y);
 }
