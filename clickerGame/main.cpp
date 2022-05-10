@@ -3,8 +3,10 @@
 #include <menu.h>
 #include <newGame.h>
 #include <iostream>
+#include <loadSave.h>
 int main()
 {
+	loadSave loadexample;
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Clicker Game", sf::Style::Fullscreen); //Creates the application 
 	window.setMouseCursorVisible(false); //Hides OS mouse
 	window.setFramerateLimit(30); //Sets frame limit to 30, important as time is kept by counting frames

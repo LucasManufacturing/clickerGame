@@ -121,6 +121,7 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos, playerSave * _
 		break;
 	case 58:
 		createGame(_player); 
+		input.clear(); 
 		newFrame.value = 1; 
 		break;
 	case 59: //backspace

@@ -45,6 +45,9 @@
     <ClCompile Include="playerSave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loadSave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clickerBrain.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="playerSave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
