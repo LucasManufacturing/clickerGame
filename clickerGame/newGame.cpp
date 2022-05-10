@@ -21,7 +21,7 @@ newGame::newGame()
 	
 }
 
-returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos)
+returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos, playerSave * _player)
 {
 	//Wiping and intialization for the new frame
 	newFrame.frame.clear(sf::Color::Transparent);
@@ -119,6 +119,10 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos)
 	case 57:
 		input.append(" ");
 		break;
+	case 58:
+		createGame(_player); 
+		newFrame.value = 1; 
+		break;
 	case 59: //backspace
 		if (input.end() != input.begin())
 		{
@@ -141,4 +145,19 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos)
 	newFrame.frame.display();
 	return &newFrame;
 
+}
+void newGame::createGame(playerSave* _player)
+{
+	std::string fileLocation = "saves\\saveFile_"; 
+	fileLocation.append(input); 
+	fileLocation.append(".txt"); 
+	writeFile.open(fileLocation);
+	writeFile << "@" << _player->money << "#\n"; 
+	writeFile << "@" << _player->clickValue << "#\n";
+	writeFile << "@" << _player->passiveValue << "#\n";
+	for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
+	{
+		writeFile << "@" << std::to_string((*i)->getCost()) << "#\n";
+	}
+	writeFile.close(); 
 }

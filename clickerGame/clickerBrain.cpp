@@ -47,6 +47,16 @@ clickerBrain::clickerBrain()
 	moneyText.setFillColor(sf::Color::White);
 	moneyText.setPosition(860, 0); 
 
+	clickText.setFont(arial);
+	clickText.setCharacterSize(60);
+	clickText.setFillColor(sf::Color::White);
+	clickText.setPosition(430, 0);
+
+	passiveText.setFont(arial);
+	passiveText.setCharacterSize(60);
+	passiveText.setFillColor(sf::Color::White);
+	passiveText.setPosition(1290, 0);
+
 	cog.setSprite("./sprites/cog.png");
 	cog.setOrigin(sf::Vector2f(128, 0)); 
 	cog.setPosition(1920, 0); 
@@ -60,47 +70,7 @@ clickerBrain::clickerBrain()
 	clickButton.centre(); 
 	clickButton.setRelativePosition(1.f/2, 1.f/8); 
 //Modifiers
-{
 
-		pencil = modifier("./sprites/pencil.png");
-		pencil.setPosition(sf::Vector2f(416, 348));
-		pencil.setCost(25.f);
-		pencil.setClickModifier(1.f);
-
-		scissors = modifier("./sprites/scissors.png");
-		scissors.setPosition(sf::Vector2f(416, 540));
-		scissors.setCost(50.f);
-		scissors.setClickModifier(5.f);
-
-		coffee = modifier("./sprites/coffee.png");
-		coffee.setPosition(sf::Vector2f(416, 732));
-		coffee.setCost(100.f);
-		coffee.setClickModifier(15.f);
-
-		thief = modifier("./sprites/thief.png");
-		thief.setPosition(sf::Vector2f(1376, 348));
-		thief.setCost(75.f);
-		thief.setPassiveModifier(1.f);
-
-		stock = modifier("./sprites/stocks.png");
-		stock.setPosition(sf::Vector2f(1376, 540));
-		stock.setCost(150.f);
-		stock.setPassiveModifier(5.f);
-
-		manager = modifier("./sprites/manager.png");
-		manager.setPosition(sf::Vector2f(1376, 732));
-		manager.setCost(300.f);
-		manager.setPassiveModifier(10.f);
-
-		for (auto i = modifierList.begin(); i != modifierList.end(); i++)
-		{
-			(*i)->icon.setScale(1.5, 1.5); 
-			(*i)->buy.setScale(2.0, 2.0);
-			(*i)->costText.setFont(arial);
-			(*i)->costText.setCharacterSize(30);
-			(*i)->costText.setFillColor(sf::Color::White);
-		}
-	}
 }
 
 void clickerBrain::click()
@@ -119,6 +89,8 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 	//Cursor.updatePos();
 	Cursor.setPosition(mousePos);
 	moneyText.setString(to_dollar(_player->money)); 
+	clickText.setString(to_dollar(_player->clickValue)); 
+	passiveText.setString(to_dollar(_player->passiveValue));
 	_player->money = _player->money + (_player->passiveValue/framesPerTic);
 
 	//Cursor and Mouse
@@ -142,7 +114,7 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 			newFrame.value = 1;
 		}
 
-		for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+		for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
 		{
 			if ((*i)->buy.getGlobalBounds().contains(Cursor.getPosition()))
 			{
@@ -160,7 +132,7 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 	}
 	else
 	{
-		for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+		for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
 		{
 			(*i)->buy.released();
 		}
@@ -168,7 +140,7 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 		clickButton.released();
 	}
 
-	for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+	for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
 	{
 		
 		(*i)->costText.setString(to_dollar((*i)->getCost())); 
@@ -176,6 +148,8 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 		newFrame.frame.draw((*i)->icon);
 		newFrame.frame.draw((*i)->costText);
 	}
+	newFrame.frame.draw(clickText);
+	newFrame.frame.draw(passiveText);
 	newFrame.frame.draw(moneyText); 
 	newFrame.frame.draw(cog); 
 	newFrame.frame.draw(Cursor); 

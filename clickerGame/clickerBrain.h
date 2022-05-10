@@ -13,7 +13,7 @@ class clickerBrain
 {
 public:
 	clickerBrain(); 
-	returnFrame * update(playerSave *, sf::Vector2f); 
+	returnFrame * update(playerSave * _player, sf::Vector2f); 
 	void click(); 
 private:
 	returnFrame newFrame; 
@@ -25,17 +25,15 @@ private:
 	button clickButton;
 	sf::Text moneyText;
 
+	sf::Text clickText; //money per click
+	sf::Text passiveText; //money per second 
+
 	st cog; 
 	st backGround; 
 
-	modifier pencil;
-	modifier scissors;
-	modifier coffee;
-	modifier thief;
-	modifier stock; 
-	modifier manager;
 
-	std::list<modifier*> modifierList = {&pencil, &scissors, &coffee, &thief, &stock, &manager};
+
+	
 
 	int framesPerTic = 30; //should be one tic per second
 };
