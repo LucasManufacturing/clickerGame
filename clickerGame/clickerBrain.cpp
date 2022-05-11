@@ -61,6 +61,9 @@ clickerBrain::clickerBrain()
 	cog.setOrigin(sf::Vector2f(128, 0)); 
 	cog.setPosition(1920, 0); 
 
+	save.setSprite("./sprites/saveIcon.png");
+	save.setPosition(0, 0); 
+
 	backGround.setSprite("./sprites/backGround.png");
 	backGround.centre(); 
 	backGround.setRelativePosition(1.f / 2, 1.f / 2); 
@@ -113,7 +116,10 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 		{
 			newFrame.value = 1;
 		}
-
+		if (save.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			_player->saveGame(); 
+		}
 		for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
 		{
 			if ((*i)->buy.getGlobalBounds().contains(Cursor.getPosition()))
@@ -152,6 +158,7 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 	newFrame.frame.draw(passiveText);
 	newFrame.frame.draw(moneyText); 
 	newFrame.frame.draw(cog); 
+	newFrame.frame.draw(save);
 	newFrame.frame.draw(Cursor); 
 	newFrame.frame.display();
 	return &newFrame; 

@@ -29,6 +29,7 @@ private:
 	sf::Text passiveText; //money per second 
 
 	st cog; 
+	st save;
 	st backGround; 
 
 

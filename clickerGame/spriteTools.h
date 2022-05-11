@@ -13,7 +13,6 @@ public:
 	void setRelativePosition(sf::Vector2f); 
 	void setRelativePosition(float, float); 
 	bool setSprite(std::string); 
-	void setPosititon(sf::Vector2f); 
 protected:
 	sf::Vector2u textureSize;
 	bool imgError = false; 

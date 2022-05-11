@@ -6,11 +6,32 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include <filesystem>
-class loadSave
+#include <button.h>
+#include <spriteTools.h>
+#include <playerSave.h>
+
+
+class loadBox
 {
-public: 
-	loadSave(); 
-	returnFrame update(); 
-	std::list<std::string> saves; 
+public:
+	void setPosition(sf::Vector2f); 
+	button loadButton; 
+	sf::Text loadName;
 };
 
+class loadSave
+{
+public:
+	loadSave(playerSave*);
+	playerSave* playerPtr;
+	bool mouseHeld = true; 
+	cursor Cursor; 
+	sf::View view; 
+	returnFrame* update(int, sf::Vector2f);
+	returnFrame newFrame;
+	std::list<std::string> saves;
+	std::list<loadBox> loadBoxes;
+	sf::Font arial;
+	sf::Texture loadBoxTexture;
+	int viewY = 0; 
+};

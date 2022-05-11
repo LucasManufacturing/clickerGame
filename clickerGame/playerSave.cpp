@@ -42,3 +42,105 @@ playerSave::playerSave()
 		(*i)->costText.setFillColor(sf::Color::White);
 	}
 }
+
+void playerSave::loadFile(std::string filename)
+{
+	std::string path = "saves\\saveFile_" + filename + ".txt"; 
+	saveName = filename; 
+	std::ifstream file(path);
+	std::string line; 
+	float holder;
+	int count = 0;
+	while (std::getline(file, line))
+	{
+		line.erase(line.begin());
+		line.pop_back();
+		holder = std::stof(line);
+		switch (count)
+		{
+		case 0: 
+			money = holder;
+			break;
+		case 1: 
+			clickValue = holder;
+			break;
+		case 2: 
+			passiveValue = holder; 
+		case 3: 
+			pencil.setCost(holder);
+			break;
+		case 4:
+			scissors.setCost(holder);
+			break;
+		case 5:
+			coffee.setCost(holder);
+			break;
+		case 6:
+			thief.setCost(holder);
+			break;
+		case 7:
+			stock.setCost(holder);
+			break;
+		case 8:
+			manager.setCost(holder);
+			break;
+		default:
+			break;
+		}
+		count++;
+		
+	}
+	file.close();
+}
+
+void playerSave::saveGame()
+{
+
+	std::string path = "saves\\saveFile_";
+	path.append(saveName);
+	path.append(".txt");
+	std::ofstream file(path);
+	if (std::filesystem::is_empty(std::filesystem::path{ path }) == false)
+	{
+		file.clear(); 
+	}
+	file << "@" << money << "#\n";
+	file << "@" << clickValue << "#\n";
+	file << "@" << passiveValue << "#\n";
+	for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+	{
+		file << "@" << std::to_string((*i)->getCost()) << "#\n";
+	}
+	file.close();
+}
+
+void playerSave::newGame(std::string filename)
+{
+	saveName = filename; 
+	money = 0;
+	clickValue = 1; 
+	passiveValue = 0;
+	pencil.setCost(25);
+	scissors.setCost(50);
+	coffee.setCost(100);
+	thief.setCost(75);
+	stock.setCost(150);
+	manager.setCost(300);
+
+	std::string path = "saves\\saveFile_";
+	path.append(filename);
+	path.append(".txt");
+	std::ofstream file(path);
+	if (std::filesystem::is_empty(std::filesystem::path{ path }) == false)
+	{
+		file.clear();
+	}
+	file << "@" << money << "#\n";
+	file << "@" << clickValue << "#\n";
+	file << "@" << passiveValue << "#\n";
+	for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+	{
+		file << "@" << std::to_string((*i)->getCost()) << "#\n";
+	}
+	file.close();
+}
