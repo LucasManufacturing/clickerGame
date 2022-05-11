@@ -5,6 +5,22 @@ loadSave::loadSave(playerSave *_player)
 	playerPtr = _player;
 	Cursor.loadButtonFromImage("./sprites/hand.png");
 
+	bar.setSprite("./sprites/scrollbar.png");
+	bar.setScale(1.f, 1.08);
+	bar.setPosition(1440, 270);
+
+	knob.loadButtonFromImage("./sprites/scrollknob.png");
+	knob.centre();
+	knob.setPosition(1445, 400);
+
+	upArrow.loadButtonFromImage("./sprites/scrollarrow.png");
+	upArrow.setPosition(1440, 258);
+
+	downArrow.loadButtonFromImage("./sprites/scrollarrow.png");
+	downArrow.rotate(180.0);
+	downArrow.setOrigin(sf::Vector2f{ 0.f, 0.f });
+	downArrow.setPosition(1448, 560);
+
 	view.reset(sf::FloatRect{ 0,0,900,250 });
 	view.setViewport(sf::FloatRect{ 0.25, 0.25, 0.5, 0.25 });
 
@@ -49,6 +65,9 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	view.move(0, _mouseWheelMovement * 10);
 	viewY = viewY + (_mouseWheelMovement * 10); 
 	sf::Vector2f viewPos = view.getSize(); 
+
+	//updates knob position
+	knob.setPosition(1440.f, 270+(270 *(viewY/(loadBoxes.size()*50.f - 250))));
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !mouseHeld)
 	{
@@ -98,6 +117,11 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	}
 	newFrame.frame.setView(newFrame.frame.getDefaultView()); 
 	
+	newFrame.frame.draw(bar);
+	newFrame.frame.draw(knob);
+	newFrame.frame.draw(upArrow);
+	newFrame.frame.draw(downArrow);
+
 	newFrame.frame.draw(Cursor); 
 	newFrame.frame.display(); 
 

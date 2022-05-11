@@ -23,11 +23,17 @@ class loadSave
 {
 public:
 	loadSave(playerSave*);
+	returnFrame* update(int, sf::Vector2f);
+
+	st bar; 
+	button knob; 
+	button upArrow; 
+	button downArrow; 
+
 	playerSave* playerPtr;
 	bool mouseHeld = true; 
 	cursor Cursor; 
 	sf::View view; 
-	returnFrame* update(int, sf::Vector2f);
 	returnFrame newFrame;
 	std::list<std::string> saves;
 	std::list<loadBox> loadBoxes;
