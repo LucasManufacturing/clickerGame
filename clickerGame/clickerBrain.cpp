@@ -1,12 +1,33 @@
-#include "clickerBrain.h"
-
-std::string to_dollar(float input)
+﻿#include "clickerBrain.h"
+std::string clickerBrain::to_dollar(float input)
 {
 	std::string str;
 	str = std::to_string(input);
 	if (input < 1000)
 	{
 		str.erase(str.begin() + str.find('.') + 3, str.end());
+	}
+	else if (input >= 18446744073709551615)//largest int possible 
+	{
+		str = ("18.44Q+");
+	}
+	else if (input >= 1000000000000000000)
+	{
+		str = std::to_string((input + 0.5) / 1000000000000000000);
+		str.erase(str.begin() + str.find('.') + 3, str.end());
+		str.append("Q");
+	}
+	else if (input >= 1000000000000000)
+	{
+		str = std::to_string((input + 0.5) / 1000000000000000);
+		str.erase(str.begin() + str.find('.') + 3, str.end());
+		str.append("q");
+	}
+	else if (input >= 1000000000000)
+	{
+		str = std::to_string((input + 0.5) / 1000000000000);
+		str.erase(str.begin() + str.find('.') + 3, str.end());
+		str.append("T");
 	}
 	else if (input >= 1000000000)
 	{
@@ -57,12 +78,13 @@ clickerBrain::clickerBrain()
 	passiveText.setFillColor(sf::Color::White);
 	passiveText.setPosition(1290, 0);
 
-	cog.setSprite("./sprites/cog.png");
+	cog.loadButtonFromImage("./sprites/cog.png");
 	cog.setOrigin(sf::Vector2f(128, 0)); 
 	cog.setPosition(1920, 0); 
 
-	save.setSprite("./sprites/saveIcon.png");
+	save.loadButtonFromImage("./sprites/saveIcon.png");
 	save.setPosition(0, 0); 
+
 
 	backGround.setSprite("./sprites/backGround.png");
 	backGround.centre(); 
@@ -114,11 +136,20 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 
 		if (cog.getGlobalBounds().contains(Cursor.getPosition()))
 		{
+			cog.pressed(); 
 			newFrame.value = 1;
+		}
+		else {
+			cog.released(); 
 		}
 		if (save.getGlobalBounds().contains(Cursor.getPosition()))
 		{
+			save.pressed(); 
 			_player->saveGame(); 
+		}
+		else
+		{
+			save.released(); 
 		}
 		for (auto i = _player->modifierList.begin(); i != _player->modifierList.end(); i++)
 		{
@@ -142,6 +173,8 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 		{
 			(*i)->buy.released();
 		}
+		save.released(); 
+		cog.released(); 
 		Cursor.released();
 		clickButton.released();
 	}

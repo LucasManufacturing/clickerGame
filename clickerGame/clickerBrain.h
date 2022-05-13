@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <returnFrame.h>
 #include <clickerBtn.h>
 #include <counter.h>
@@ -16,6 +16,7 @@ public:
 	returnFrame * update(playerSave * _player, sf::Vector2f); 
 	void click(); 
 private:
+	std::string to_dollar(float);
 	returnFrame newFrame; 
 	counter frameCount; 
 	bool trial;
@@ -28,8 +29,8 @@ private:
 	sf::Text clickText; //money per click
 	sf::Text passiveText; //money per second 
 
-	st cog; 
-	st save;
+	button cog; 
+	button save;
 	st backGround; 
 
 
