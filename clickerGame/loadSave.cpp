@@ -10,8 +10,9 @@ loadSave::loadSave(playerSave *_player)
 	bar.setPosition(1440, 270);
 
 	knob.loadButtonFromImage("./sprites/scrollknob.png");
+	knob.setScale(1.5, 1.5); 
 	knob.centre();
-	knob.setPosition(1445, 400);
+	knob.setPosition(1500, 400);
 
 	upArrow.loadButtonFromImage("./sprites/scrollarrow.png");
 	upArrow.setPosition(1440, 258);
@@ -66,12 +67,19 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	viewY = viewY + (_mouseWheelMovement * 10); 
 	sf::Vector2f viewPos = view.getSize(); 
 
-	//updates knob position
-	knob.setPosition(1440.f, 270+(270 *(viewY/(loadBoxes.size()*50.f - 250))));
+
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !mouseHeld)
 	{
 		Cursor.pressed();
+		if (knob.getGlobalBounds().contains(Cursor.getPosition())) 
+		{
+			knob.pressed();
+		}
+		else
+		{
+			knob.released();
+		}
 		for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
 		{
 			//checks to see if current loadBox is in view of scrollbox
@@ -95,7 +103,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 			}
 		}
 	}
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false && mouseHeld)
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false && mouseHeld) //stub asserts when user is choosing an option
 	{
 		mouseHeld = false; 
 	}
@@ -106,7 +114,27 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 		{
 			i->loadButton.released(); 
 		}
+		knob.released();
 	}
+
+	if (knob.getState())
+	{
+
+	}
+
+	if (viewY > loadBoxes.size()*50.f -250) 
+	{
+		float a = (loadBoxes.size()*50.f - 250) - viewY; 
+		view.move(0.f, a);
+		viewY = a; 
+	}
+	else if (viewY < 0)
+	{
+
+	}
+
+	//updates knob position
+	knob.setPosition(1445.f, 270 + (270 * (viewY / (loadBoxes.size()*50.f - 250))));
 
 	newFrame.frame.setView(view);
 	//Draws all the boxes 

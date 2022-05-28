@@ -4,8 +4,13 @@ button::button(std::string path)
 	loadButtonFromImage(path);
 }
 button::button() {}
+bool button::getState()
+{
+	return activated;
+}
 void button::pressed() 
 {
+	activated = true; 
 	sprite[0].texCoords = sf::Vector2f(textureSize.x / 2, 0.f);
 	sprite[1].texCoords = sf::Vector2f(textureSize.x, 0.f);
 	sprite[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);

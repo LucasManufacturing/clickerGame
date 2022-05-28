@@ -37,7 +37,7 @@ int main()
 		sf::Sprite gameFrame; //sprites to hold a new gameFrame frame
 		sf::Sprite menuFrame; //sprites to hold a new menuFrame frame
 
-		int mouseWheelMovement = 0; 
+		int mouseWheelMovement = 0;
 
 		sf::Event event;
 		keyCode = -1; 

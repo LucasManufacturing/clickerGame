@@ -26,8 +26,10 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos, playerSave * _
 	//Wiping and intialization for the new frame
 	newFrame.frame.clear(sf::Color::Transparent);
 	newFrame.value = 2;
-	Cursor.setPosition(mousePos);
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+
+	Cursor.setPosition(mousePos); //Updates Cursor Position 
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) //Detects a left button mouse click
 	{
 		Cursor.pressed();
 	}
@@ -36,7 +38,7 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos, playerSave * _
 		Cursor.released();
 	}
 
-	switch (keyCode)
+	switch (keyCode) //Translates SFML key code to corresponding character or function.
 	{
 	case 0:
 		input.append("A");
@@ -119,15 +121,15 @@ returnFrame * newGame::update(int keyCode, sf::Vector2f mousePos, playerSave * _
 	case 57:
 		input.append(" ");
 		break;
-	case 58:
-		_player->newGame(input); 
+	case 58: //Enter key pressed
+		_player->newGame(input); //save game is created using user inputed string. 
 		input.clear(); 
 		newFrame.value = 0; 
 		break;
 	case 59: //backspace
-		if (input.end() != input.begin())
+		if (!input.empty())//checks to see if input is empty
 		{
-			input.erase(input.end() - 1);
+			input.erase(input.end() - 1); //deletes last character by going to the position before the string terminator
 		}
 		break;
 	default: break;
