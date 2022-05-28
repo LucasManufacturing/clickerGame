@@ -19,6 +19,8 @@ private:
 	returnFrame newFrame;
 	cursor Cursor;
 	sf::Text text; 
+	sf::Text title; 
+	button enter; 
 };
 
 
