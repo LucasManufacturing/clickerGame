@@ -3,7 +3,6 @@
 loadSave::loadSave(playerSave *_player)
 {
 	playerPtr = _player;
-	Cursor.loadButtonFromImage("./sprites/hand.png");
 
 	bar.setSprite("./sprites/scrollbar.png");
 	bar.setScale(1.f, 1.08);
@@ -16,11 +15,21 @@ loadSave::loadSave(playerSave *_player)
 
 	upArrow.loadButtonFromImage("./sprites/scrollarrow.png");
 	upArrow.setPosition(1440, 258);
+	upArrow.scale(2.f, 1.5);
 
 	downArrow.loadButtonFromImage("./sprites/scrollarrow.png");
 	downArrow.rotate(180.0);
 	downArrow.setOrigin(sf::Vector2f{ 0.f, 0.f });
-	downArrow.setPosition(1448, 560);
+	downArrow.setPosition(1440, 560);
+	downArrow.scale(2.f, 1.5);
+
+	title.setFont(arial);
+	title.setStyle(sf::Text::Bold); 
+	title.setOutlineColor(sf::Color::Black); 
+	title.setOutlineThickness(5);
+	title.setCharacterSize(80);
+	title.setString("Select a Save to Load");
+	title.setPosition(575, 160);
 
 	view.reset(sf::FloatRect{ 0,0,900,250 });
 	view.setViewport(sf::FloatRect{ 0.25, 0.25, 0.5, 0.25 });
@@ -59,7 +68,7 @@ loadSave::loadSave(playerSave *_player)
 
 returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 {
-
+	float mousePosYchange = (_mousePos.y - Cursor.getPosition().y) * 3; 
 	Cursor.setPosition(_mousePos); 
 	newFrame.frame.clear(sf::Color::Transparent);
 	newFrame.value = 3; 
@@ -75,14 +84,38 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 		if (knob.getGlobalBounds().contains(Cursor.getPosition())) 
 		{
 			knob.pressed();
+			dragging = true; 
 		}
 		else
 		{
 			knob.released();
 		}
+
+		if (upArrow.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			upArrow.pressed();
+			viewY = viewY - 5; 
+			view.move(0.f, -5.f);
+		}
+		else
+		{
+			upArrow.released();
+		}
+
+		if (downArrow.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			downArrow.pressed();
+			viewY = viewY + 5;
+			view.move(0.f, 5.f);
+		}
+		else
+		{
+			downArrow.released();
+		}
+
 		for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
 		{
-			//checks to see if current loadBox is in view of scrollbox
+			//checks to see if current loadBox is in view of the current scroll box
 			if (i->loadButton.getGlobalBounds().intersects(sf::FloatRect{0.f,(float)viewY,viewPos.x, viewPos.y}))
 			{
 				sf::FloatRect scrollBoxBounds = (i)->loadButton.getGlobalBounds();
@@ -90,7 +123,6 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 
 				if (scrollBoxBounds.contains(Cursor.getPosition()))
 				{
-
 					i->loadButton.pressed();
 					playerPtr->loadFile(i->loadName.getString());
 					newFrame.value = 0;
@@ -107,7 +139,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	{
 		mouseHeld = false; 
 	}
-	else
+	else //if left click not pressed, release all buttons 
 	{
 		Cursor.released(); 
 		for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
@@ -115,26 +147,32 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 			i->loadButton.released(); 
 		}
 		knob.released();
+		downArrow.released();
+		upArrow.released();
+		dragging = false; 
 	}
 
-	if (knob.getState())
+	if (dragging)
 	{
-
+		viewY = viewY + mousePosYchange;
+		view.move(0.f, mousePosYchange);
 	}
 
-	if (viewY > loadBoxes.size()*50.f -250) 
+	if (viewY > loadBoxes.size()*50.f -250) //Checks to see if view is too far down, if it is it will bring it back to the end
 	{
-		float a = (loadBoxes.size()*50.f - 250) - viewY; 
-		view.move(0.f, a);
-		viewY = a; 
+		float a = (loadBoxes.size()*50.f - 250) - viewY;//a is a temporary value holder, it holds the distance from the view position and the end of the load boxes
+		view.move(0.f, a); 
+		viewY = viewY + a; 
 	}
-	else if (viewY < 0)
+	if (viewY < 0) //Checks to see if view is too far up, if it is it will bring it back to it's start, 
 	{
-
+		view.move(0.f, -viewY);
+		viewY = 0; 
 	}
+
 
 	//updates knob position
-	knob.setPosition(1445.f, 270 + (270 * (viewY / (loadBoxes.size()*50.f - 250))));
+	knob.setPosition(1445.f, 293 + (230 * (viewY / (loadBoxes.size()*50.f - 250))));
 
 	newFrame.frame.setView(view);
 	//Draws all the boxes 
@@ -145,6 +183,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	}
 	newFrame.frame.setView(newFrame.frame.getDefaultView()); 
 	
+	newFrame.frame.draw(title);
 	newFrame.frame.draw(bar);
 	newFrame.frame.draw(knob);
 	newFrame.frame.draw(upArrow);

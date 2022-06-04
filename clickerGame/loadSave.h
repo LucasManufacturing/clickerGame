@@ -31,6 +31,8 @@ public:
 	button downArrow; 
 	bool dragging; 
 
+	sf::Text title; 
+
 	playerSave* playerPtr;
 	bool mouseHeld = true; //To prevent clicking on save immediately after entering load screen, waits for user to release mouse. 
 	cursor Cursor; 
