@@ -36,7 +36,7 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 	//Wiping and intialization for the new frame
 	newFrame.frame.clear(sf::Color::Transparent);
 	newFrame.value = 2;
-
+	std::cout << keyCode; 
 	Cursor.setPosition(mousePos); //Updates Cursor Position 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) //Detects a left button mouse click and handles clickable events (buttons)
 	{
@@ -150,6 +150,9 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 			{
 				input.erase(input.end() - 1); //deletes last character by going to the position before the string terminator
 			}
+		case 60: //tab
+			input.clear(); 
+			newFrame.value = 1; 
 			break;
 		default: break;
 		}
@@ -164,9 +167,6 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 			text.setString(input); 
 			std::cout << input << "\n";
 		}
-
-
-
 	
 	newFrame.frame.draw(backgroundImg);
 	newFrame.frame.draw(backgroundBox);

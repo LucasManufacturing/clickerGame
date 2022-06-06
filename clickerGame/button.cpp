@@ -4,10 +4,13 @@ button::button(std::string path)
 	loadButtonFromImage(path);
 }
 button::button() {}
+
+//returns pressed state. 
 bool button::getState()
 {
 	return activated;
 }
+//switches to right half of the button sprite
 void button::pressed() 
 {
 	activated = true; 
@@ -16,6 +19,8 @@ void button::pressed()
 	sprite[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
 	sprite[3].texCoords = sf::Vector2f(textureSize.x / 2, textureSize.y);
 }
+
+//switches to right half of button sprite, returns whether button was previously clicked prior to call
 bool button::pressed(bool check)
 {
 	bool newPress = false; 
@@ -30,6 +35,8 @@ bool button::pressed(bool check)
 	}
 	return newPress;
 }
+
+//switches to left half of button sprite
 void button::released()
 {
 	activated = false; 
@@ -39,6 +46,7 @@ void button::released()
 	sprite[3].texCoords = sf::Vector2f(0.f, textureSize.y);
 }
 
+//Accepts a relative or absolute path to image, and sets the texture for the button. If path is invalid a purple square is rendered as path holder. 
 bool button::loadButtonFromImage(std::string path)
 {
 	if(setTexture(path))

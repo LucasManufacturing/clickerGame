@@ -23,13 +23,18 @@ class loadSave
 {
 public:
 	loadSave(playerSave*);
-	returnFrame* update(int, sf::Vector2f);
+	returnFrame* update(int, sf::Vector2f, int);
+	void findSaveFiles(); 
 
 	st bar; 
 	button knob; 
 	button upArrow; 
 	button downArrow; 
+
+	//holds whether the user is dragging the scroll bar knob 
 	bool dragging; 
+	//turns true when user selects a save, and turns false when user enters the load menu
+	bool exited = true;
 
 	sf::Text title; 
 

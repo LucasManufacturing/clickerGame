@@ -69,7 +69,12 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		Cursor.released();
 	}
 
+	switch (event.key.code)
+	{
+	case 60: 
+		newFrame.value = 0; 
 
+	}
 
 	//
 	newFrame.frame.draw(backgroundImg);

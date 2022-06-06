@@ -36,37 +36,10 @@ loadSave::loadSave(playerSave *_player)
 
 	arial.loadFromFile("./fonts/arial.ttf");
 	newFrame.frame.create(1920, 1080);
-	for (const auto &fileIt : std::filesystem::directory_iterator( "saves" ))
-	{
-		std::string fileName = fileIt.path().filename().string(); 
-		if (fileName.find("saveFile_") != std::string::npos)
-		{
-			fileName.erase(0, 9); 
-			fileName.erase(fileName.end() - 4, fileName.end());
-			saves.push_back(fileName); 
-		}
-	}
-
-	for (auto i = saves.begin(); i != saves.end(); i++)
-	{
-		int index = std::distance(saves.begin(), i);
-
-		loadBox _loadBox;
-		_loadBox.loadButton.loadButtonFromImage("./sprites/loadBox.png"); 
-		_loadBox.loadName.setString((*i)); 
-		_loadBox.loadName.setFont(arial);
-		_loadBox.loadName.setCharacterSize(30);
-		_loadBox.loadName.setFillColor(sf::Color::Red); 
-
-		_loadBox.loadButton.scale(3.f, 1);
-		_loadBox.setPosition(sf::Vector2f{ 0.f, (index * 50.f) }); 
-
-		loadBoxes.push_back(_loadBox); 
-		std::cout << index << *i << "\n"; 
-	}
 }
 
-returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
+//handles actions & generates a new frame for loading a save menu. 
+returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, int _keyCode)
 {
 	float mousePosYchange = (_mousePos.y - Cursor.getPosition().y) * 3; 
 	Cursor.setPosition(_mousePos); 
@@ -76,7 +49,11 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	viewY = viewY + (_mouseWheelMovement * 10); 
 	sf::Vector2f viewPos = view.getSize(); 
 
-
+	if (exited)
+	{
+		findSaveFiles(); 
+		exited = false;
+	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !mouseHeld)
 	{
@@ -125,8 +102,10 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 				{
 					i->loadButton.pressed();
 					playerPtr->loadFile(i->loadName.getString());
+
 					newFrame.value = 0;
 					mouseHeld = true;
+					exited = true;
 				}
 				else
 				{
@@ -155,7 +134,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	if (dragging)
 	{
 		viewY = viewY + mousePosYchange;
-		view.move(0.f, mousePosYchange);
+		view.move(0.f, mousePosYchange);	
 	}
 
 	if (viewY > loadBoxes.size()*50.f -250) //Checks to see if view is too far down, if it is it will bring it back to the end
@@ -173,6 +152,12 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 
 	//updates knob position
 	knob.setPosition(1445.f, 293 + (230 * (viewY / (loadBoxes.size()*50.f - 250))));
+
+	switch (_keyCode)
+	{
+	case 60:
+		newFrame.value = 1; 
+	}
 
 	newFrame.frame.setView(view);
 	//Draws all the boxes 
@@ -195,6 +180,40 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos)
 	return &newFrame;
 }
 
+//executes each time the user enters into the loading a save menu.
+void loadSave::findSaveFiles()
+{
+	for (const auto &fileIt : std::filesystem::directory_iterator("saves"))
+	{
+		std::string fileName = fileIt.path().filename().string();
+		if (fileName.find("saveFile_") != std::string::npos)
+		{
+			fileName.erase(0, 9);
+			fileName.erase(fileName.end() - 4, fileName.end());
+			saves.push_back(fileName);
+		}
+	}
+
+	for (auto i = saves.begin(); i != saves.end(); i++)
+	{
+		int index = std::distance(saves.begin(), i);
+
+		loadBox _loadBox;
+		_loadBox.loadButton.loadButtonFromImage("./sprites/loadBox.png");
+		_loadBox.loadName.setString((*i));
+		_loadBox.loadName.setFont(arial);
+		_loadBox.loadName.setCharacterSize(30);
+		_loadBox.loadName.setFillColor(sf::Color::Red);
+
+		_loadBox.loadButton.scale(3.f, 1);
+		_loadBox.setPosition(sf::Vector2f{ 0.f, (index * 50.f) });
+
+		loadBoxes.push_back(_loadBox);
+		std::cout << index << *i << "\n";
+	}
+}
+
+//simple function to change the position of load boxes. 
 void loadBox::setPosition(sf::Vector2f _pos)
 {
 	loadButton.setPosition(_pos.x, _pos.y);

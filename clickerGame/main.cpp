@@ -5,6 +5,11 @@
 #include <iostream>
 #include <loadSave.h>
 #include <startMenu.h>
+
+//add exit button to menus
+//add back button 
+//add help button
+//add about button 
 int main()
 {
 	
@@ -52,7 +57,7 @@ int main()
 				{
 					window.close(); //closes windows application 
 				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))//if tab is pressed switch to menu or game object
+			/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))//if tab is pressed switch to menu or game object
 				{
 					loadexample.mouseHeld = true; 
 					if (loading != 1)
@@ -63,7 +68,7 @@ int main()
 					{
 						loading = 0;
 					}
-				}
+				}*/
 
 				keyCode = event.key.code;
 //				std::cout << keyCode << "\n"; 
@@ -133,7 +138,7 @@ int main()
 		case 3: //loading
 			gameFrame.setColor(sf::Color(223, 232, 241, 125));
 			gameFrame.setTexture(currentGameFrame->frame.getTexture());
-			menu = loadexample.update(mouseWheelMovement, mousePos); 
+			menu = loadexample.update(mouseWheelMovement, mousePos, keyCode); 
 			menuFrame.setTexture(menu->frame.getTexture()); 
 			loading = menu->value; 
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
