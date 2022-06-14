@@ -25,14 +25,17 @@ public:
 	loadSave(playerSave*);
 	returnFrame* update(int, sf::Vector2f, int);
 	void findSaveFiles(); 
-
+//Stub holds scroll bar functionality. 
 	st bar; 
 	button knob; 
 	button upArrow; 
 	button downArrow; 
+	bool dragging;//holds whether the user is dragging the scroll bar knob 
 
-	//holds whether the user is dragging the scroll bar knob 
-	bool dragging; 
+
+	button back; 
+
+	
 	//turns true when user selects a save, and turns false when user enters the load menu
 	bool exited = true;
 

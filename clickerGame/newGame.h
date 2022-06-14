@@ -12,16 +12,24 @@ public:
 	newGame();
 
 private:
+	
+
 	sf::Font arial; 
 	sf::Font monoArial; 
+
 	std::string input; 
+
 	st backgroundImg;
 	st backgroundBox;
+
 	returnFrame newFrame;
 	cursor Cursor;
+
 	sf::Text text; 
 	sf::Text title; 
+
 	button enter; 
+	button back; 
 };
 
 

@@ -28,6 +28,10 @@ newGame::newGame()
 	text.setFillColor(sf::Color::Black);
 	text.setPosition(615, 540); 
 	
+	back.loadButtonFromImage("./sprites/back.png");
+	back.setScale(sf::Vector2f(3.f, 3.f));
+	back.centre();
+	back.setPosition(960, 800);
 }
 
 returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * _player)
@@ -41,6 +45,16 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) //Detects a left button mouse click and handles clickable events (buttons)
 	{
 		Cursor.pressed();
+		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
+		if (back.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			back.pressed(true);
+			newFrame.value = 0;
+		}
+		else
+		{
+			back.released();
+		}
 		if (enter.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			enter.pressed();
@@ -175,6 +189,7 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 	newFrame.frame.draw(backgroundImg);
 	newFrame.frame.draw(backgroundBox);
 	newFrame.frame.draw(enter);
+	newFrame.frame.draw(back); 
 	newFrame.frame.draw(text); 
 	newFrame.frame.draw(title);
 	newFrame.frame.draw(Cursor);

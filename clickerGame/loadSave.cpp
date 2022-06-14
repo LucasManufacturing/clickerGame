@@ -31,6 +31,11 @@ loadSave::loadSave(playerSave *_player)
 	title.setString("Select a Save to Load");
 	title.setPosition(575, 160);
 
+	back.loadButtonFromImage("./sprites/back.png");
+	back.setScale(3.f, 3.f);
+	back.centre();
+	back.setPosition(960, 800); 
+
 	view.reset(sf::FloatRect{ 0,0,900,250 });
 	view.setViewport(sf::FloatRect{ 0.25, 0.25, 0.5, 0.25 });
 
@@ -58,6 +63,16 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !mouseHeld)
 	{
 		Cursor.pressed();
+		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
+		if (back.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			back.pressed(true);
+			newFrame.value = 0;
+		}
+		else
+		{
+			back.released();
+		}
 		if (knob.getGlobalBounds().contains(Cursor.getPosition())) 
 		{
 			knob.pressed();
@@ -173,7 +188,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	newFrame.frame.draw(knob);
 	newFrame.frame.draw(upArrow);
 	newFrame.frame.draw(downArrow);
-
+	newFrame.frame.draw(back);
 	newFrame.frame.draw(Cursor); 
 	newFrame.frame.display(); 
 
