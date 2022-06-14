@@ -3,7 +3,7 @@
 newGame::newGame()
 {
 	arial.loadFromFile("./fonts/arial.ttf");
-
+	monoArial.loadFromFile("./fonts/arial_monospaced_mt.ttf");
 	newFrame.frame.create(1920, 1080);
 	Cursor.loadButtonFromImage("./sprites/hand.png");
 	backgroundImg.setSprite("./sprites/newGameMenu.png");
@@ -23,7 +23,7 @@ newGame::newGame()
 	title.setCharacterSize(50); 
 	title.setString("Enter a New Game Name");
 
-	text.setFont(arial); 
+	text.setFont(monoArial); 
 	text.setCharacterSize(60);
 	text.setFillColor(sf::Color::Black);
 	text.setPosition(615, 540); 
@@ -141,15 +141,19 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 			input.append(" ");
 			break;
 		case 58: //Enter key pressed
-			_player->newGame(input); //save game is created using user inputed string. 
-			input.clear();
-			newFrame.value = 0;
+			if (!input.empty())//Will not allow user to input blank save name. 
+			{
+				_player->newGame(input); //save game is created using user inputed string. 
+				input.clear();
+				newFrame.value = 0;
+			}
 			break;
 		case 59: //backspace
 			if (!input.empty())//checks to see if input is empty
 			{
 				input.erase(input.end() - 1); //deletes last character by going to the position before the string terminator
 			}
+			break;
 		case 60: //tab
 			input.clear(); 
 			newFrame.value = 1; 
@@ -158,9 +162,9 @@ returnFrame * newGame::update(int _keyCode, sf::Vector2f mousePos, playerSave * 
 		}
 
 		//ensures input does not go too long and over run it's text box. 
-		if (input.length() > 14)
+		if (input.length() > 16)
 		{
-			input.erase(input.begin()+14, input.end()); //deletes all characters after 15th 
+			input.erase(input.begin()+16, input.end()); //deletes all characters after 16th 
 		}
 		if (keyCode != -1)
 		{

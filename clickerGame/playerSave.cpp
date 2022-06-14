@@ -95,23 +95,25 @@ void playerSave::loadFile(std::string filename)
 
 void playerSave::saveGame()
 {
-
-	std::string path = "saves\\saveFile_";
-	path.append(saveName);
-	path.append(".txt");
-	std::ofstream file(path);
-	if (std::filesystem::is_empty(std::filesystem::path{ path }) == false)
+	if (!saveName.empty()) //Won't attempt to save without a saveName. 
 	{
-		file.clear(); 
+		std::string path = "saves\\saveFile_";
+		path.append(saveName);
+		path.append(".txt");
+		std::ofstream file(path);
+		if (std::filesystem::is_empty(std::filesystem::path{ path }) == false)
+		{
+			file.clear();
+		}
+		file << "@" << money << "#\n";
+		file << "@" << clickValue << "#\n";
+		file << "@" << passiveValue << "#\n";
+		for (auto i = modifierList.begin(); i != modifierList.end(); i++)
+		{
+			file << "@" << std::to_string((*i)->getCost()) << "#\n";
+		}
+		file.close();
 	}
-	file << "@" << money << "#\n";
-	file << "@" << clickValue << "#\n";
-	file << "@" << passiveValue << "#\n";
-	for (auto i = modifierList.begin(); i != modifierList.end(); i++)
-	{
-		file << "@" << std::to_string((*i)->getCost()) << "#\n";
-	}
-	file.close();
 }
 
 void playerSave::newGame(std::string filename)

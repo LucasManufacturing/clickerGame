@@ -12,7 +12,7 @@ public:
 private:
 
 	button save;
-	button Back;
+	button exit;
 	button load;
 	button newGame;
 	std::list<button*> buttonList = { &newGame, &load };

@@ -13,6 +13,7 @@ public:
 
 private:
 	sf::Font arial; 
+	sf::Font monoArial; 
 	std::string input; 
 	st backgroundImg;
 	st backgroundBox;

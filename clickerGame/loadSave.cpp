@@ -186,7 +186,7 @@ void loadSave::findSaveFiles()
 	for (const auto &fileIt : std::filesystem::directory_iterator("saves"))
 	{
 		std::string fileName = fileIt.path().filename().string();
-		if (fileName.find("saveFile_") != std::string::npos)
+		if ((fileName.find("saveFile_") != std::string::npos) && fileName.length() <= 29) //Will only load valid saves which include the prefix saveFile_ & whose save name is less than 17 characters.
 		{
 			fileName.erase(0, 9);
 			fileName.erase(fileName.end() - 4, fileName.end());
@@ -196,7 +196,7 @@ void loadSave::findSaveFiles()
 
 	for (auto i = saves.begin(); i != saves.end(); i++)
 	{
-		int index = std::distance(saves.begin(), i);
+		int index = std::distance(saves.begin(), i); //finds integer value of the iterator position 
 
 		loadBox _loadBox;
 		_loadBox.loadButton.loadButtonFromImage("./sprites/loadBox.png");

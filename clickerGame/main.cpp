@@ -50,28 +50,14 @@ int main()
 		while (window.pollEvent(event))//Handles new computer events
 		{
 			if (event.type == sf::Event::Closed)
-				window.close();
+				loading = 4; //In "Screen Switch" the window will close
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				{
-					window.close(); //closes windows application 
+					loading = 4;// In "Screen Switch" the window will close
 				}
-			/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))//if tab is pressed switch to menu or game object
-				{
-					loadexample.mouseHeld = true; 
-					if (loading != 1)
-					{
-						loading = 1;
-					}
-					else
-					{
-						loading = 0;
-					}
-				}*/
-
 				keyCode = event.key.code;
-//				std::cout << keyCode << "\n"; 
 			}
 			if (event.type == sf::Event::MouseWheelMoved)
 			{
@@ -98,8 +84,11 @@ int main()
 			}
 			window.draw(menuFrame);
 		}
-		switch (loading) //Switches to the active "screen" object
+
+		//"Screen Switch"
+		switch (loading) //Handles which screen scene should be loaded each frame. E.G the game screen or window screen. 
 		{
+
 		case 0: //Game
 			gameFrame.setColor(sf::Color::White); //set background colour 
 			currentGameFrame = clickerScreen.update( &player, mousePos); //Generates a new frame
@@ -151,7 +140,15 @@ int main()
 			window.draw(menuFrame); 
 			
 			break;
-		default: break;
+		case 4: //Exit Application
+			player.saveGame(); 
+			window.close();
+			break;
+		default: 
+			std::cout << "Error - Main.cpp Screen Switch has defaulted!"; //Requires some error notification as this switch should never default and may be hard to debug without this flag.
+			player.saveGame();
+			window.close();//closes window which will then close the process, without this, the default case would result in undefined behaviour likely freezing user's device.
+			break; 
 		}
 
 

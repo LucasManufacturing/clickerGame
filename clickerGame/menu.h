@@ -11,12 +11,13 @@ public:
 	returnFrame * update(sf::Event, sf::Vector2f); 
 	menu(playerSave*); 
 private:
-	sf::Font arial; 
+	sf::Font monoArial; 
 
 	playerSave* playerPTR;
 
 	button save; 
-	button Back; 
+	button back; 
+	button exit;
 	button load; 
 	button newGame; 
 	std::list<button*> buttonList = { &newGame, &load };

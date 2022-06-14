@@ -21,17 +21,23 @@ startMenu::startMenu()
 	load.setScale(sf::Vector2f(2.5, 2.5));
 	load.centre();
 	load.setPosition(960, 350);
+
+	exit.loadButtonFromImage("./sprites/exit.png");
+	exit.setScale(sf::Vector2f(2.5, 2.5));
+	exit.centre();
+	exit.setPosition(960, 450);
 }
 
 returnFrame * startMenu::update(sf::Event event, sf::Vector2f mousePos)
 {
 	//Wiping and intialization for the new frame
 	newFrame.frame.clear(sf::Color::Transparent);
-	newFrame.value = -1;
+	newFrame.value = 0;
 	Cursor.setPosition(mousePos);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		Cursor.pressed();
+		//If user clicks "New Game" user will be sent to the new game menu, code located in newGame.h & newGame.cpp
 		if (newGame.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			newGame.pressed(true);
@@ -41,6 +47,7 @@ returnFrame * startMenu::update(sf::Event event, sf::Vector2f mousePos)
 		{
 			newGame.released();
 		}
+		//If user clicks "Load" user will be sent to the load menu, code located in loadSave.h & loadSave.cpp
 		if (load.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			load.pressed(true);
@@ -49,6 +56,16 @@ returnFrame * startMenu::update(sf::Event event, sf::Vector2f mousePos)
 		else
 		{
 			load.released();
+		}
+		//If user clicks "Exit", the application will consequently save their game and close. 
+		if (exit.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			exit.pressed(true);
+			newFrame.value = 4;
+		}
+		else
+		{
+			exit.released();
 		}
 	}
 	else
@@ -65,6 +82,7 @@ returnFrame * startMenu::update(sf::Event event, sf::Vector2f mousePos)
 	newFrame.frame.draw(backgroundImg);
 	newFrame.frame.draw(backgroundBox);
 	newFrame.frame.draw(newGame);
+	newFrame.frame.draw(exit);
 	newFrame.frame.draw(load);
 	newFrame.frame.draw(Cursor);
 	newFrame.frame.display();
