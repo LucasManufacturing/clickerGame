@@ -189,7 +189,17 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 	{
 		
 		(*i)->costText.setString(to_dollar((*i)->getCost())); 
-		newFrame.frame.draw((*i)->buy); 
+		if ((*i)->getCost() <= _player->money)
+		{
+			newFrame.frame.draw((*i)->buy);
+			(*i)->costText.setFillColor(sf::Color::Green);
+		}
+		else 
+		{
+			newFrame.frame.draw((*i)->redBuy);
+			(*i)->costText.setFillColor(sf::Color::Red);
+		}
+		
 		newFrame.frame.draw((*i)->icon);
 		newFrame.frame.draw((*i)->costText);
 	}

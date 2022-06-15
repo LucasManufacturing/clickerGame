@@ -36,9 +36,12 @@ playerSave::playerSave()
 	for (auto i = modifierList.begin(); i != modifierList.end(); i++)
 	{
 		(*i)->icon.setScale(1.5, 1.5);
-		(*i)->buy.setScale(2.0, 2.0);
+		(*i)->buy.setScale(2.0, 1.5);
+		(*i)->redBuy.setScale(2.0, 1.5);
 		(*i)->costText.setFont(arial);
-		(*i)->costText.setCharacterSize(30);
+		(*i)->costText.setCharacterSize(40);
+		(*i)->modifierText.setFont(arial);
+		(*i)->modifierText.setCharacterSize(40);
 		(*i)->costText.setFillColor(sf::Color::White);
 	}
 }

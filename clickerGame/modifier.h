@@ -9,13 +9,15 @@ public:
 	modifier(std::string); 
 	void tryBuy(float* playerMoney, float* , float*); 
 	button buy;
+	button redBuy; 
 	st icon;
-	sf::VertexArray border; 
 	void setCost(float); 
 	void setClickModifier(float);
 	void setPassiveModifier(float);
+
 	float getCost();
 	void setPosition(sf::Vector2f); 
+	sf::Text modifierText; 
 	sf::Text costText; 
 private:
 	float clickValueModifier = 0;

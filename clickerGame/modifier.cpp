@@ -7,11 +7,13 @@ modifier::modifier(std::string iconPath)
 	buy.loadButtonFromImage("./sprites/greenBuy.png");
 	buy.centre();
 
+	redBuy.loadButtonFromImage("./sprites/redBuy.png");
+	redBuy.centre(); 
+
 	costText.setOutlineColor(sf::Color::Black);
 	costText.setOutlineThickness(1); 
 
-	border = sf::VertexArray(sf::PrimitiveType::Quads, 4);
-	//border[0].position(icon.getBounds);
+
 	
 }
 modifier::modifier()
@@ -52,5 +54,7 @@ void modifier::setPosition(sf::Vector2f pos)
 {
 	icon.setPosition(pos);
 	buy.setPosition(pos.x + 160, pos.y); 
-	costText.setPosition(pos.x - 180, pos.y - 20);
+	redBuy.setPosition(pos.x + 160, pos.y); 
+	costText.setPosition(pos.x + 103, pos.y - 65);
+//	modifierText.setPosition(pos.x + )
 }
