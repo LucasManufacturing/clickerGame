@@ -17,10 +17,9 @@ loadSave::loadSave(playerSave *_player)
 	upArrow.setPosition(1440, 258);
 	upArrow.scale(2.f, 1.5);
 
-	downArrow.loadButtonFromImage("./sprites/scrollarrow.png");
-	downArrow.rotate(180.0);
+	downArrow.loadButtonFromImage("./sprites/scrollarrowDown.png");
 	downArrow.setOrigin(sf::Vector2f{ 0.f, 0.f });
-	downArrow.setPosition(1440, 560);
+	downArrow.setPosition(1440, 535);
 	downArrow.scale(2.f, 1.5);
 
 	title.setFont(arial);
@@ -57,6 +56,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	if (exited)
 	{
 		findSaveFiles(); 
+		sf::Mouse::setPosition(sf::Vector2i(700, 125));
 		exited = false;
 	}
 
@@ -129,9 +129,10 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 			}
 		}
 	}
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false && mouseHeld) //stub asserts when user is choosing an option
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false && mouseHeld) //stub asserts when user is choosing an option// entering from menu
 	{
 		mouseHeld = false; 
+		
 	}
 	else //if left click not pressed, release all buttons 
 	{
@@ -148,8 +149,8 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 
 	if (dragging)
 	{
-		viewY = viewY + mousePosYchange;
-		view.move(0.f, mousePosYchange);	
+		viewY = viewY + (int)mousePosYchange;
+		view.move(0, (int)mousePosYchange);	
 	}
 
 	if (viewY > loadBoxes.size()*50.f -250) //Checks to see if view is too far down, if it is it will bring it back to the end
@@ -166,11 +167,11 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 
 
 	//updates knob position
-	knob.setPosition(1445.f, 293 + (230 * (viewY / (loadBoxes.size()*50.f - 250))));
+	knob.setPosition(1445.f, 293 + (220 * (viewY / (loadBoxes.size()*50.f - 250))));
 
 	switch (_keyCode)
 	{
-	case 60:
+	case 60://tab
 		newFrame.value = 1; 
 	}
 
@@ -198,6 +199,8 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 //executes each time the user enters into the loading a save menu.
 void loadSave::findSaveFiles()
 {
+	saves.clear(); 
+	loadBoxes.clear();
 	for (const auto &fileIt : std::filesystem::directory_iterator("saves"))
 	{
 		std::string fileName = fileIt.path().filename().string();

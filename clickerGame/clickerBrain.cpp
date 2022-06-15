@@ -64,16 +64,22 @@ clickerBrain::clickerBrain()
 	
 	
 	moneyText.setFont(arial);
+	moneyText.setOutlineColor(sf::Color::Black);
+	moneyText.setOutlineThickness(3);
 	moneyText.setCharacterSize(60); 
 	moneyText.setFillColor(sf::Color::White);
-	moneyText.setPosition(860, 0); 
+	moneyText.setPosition(885, 0); 
 
 	clickText.setFont(arial);
+	clickText.setOutlineColor(sf::Color::Black);
+	clickText.setOutlineThickness(3);
 	clickText.setCharacterSize(60);
 	clickText.setFillColor(sf::Color::White);
 	clickText.setPosition(430, 0);
 
 	passiveText.setFont(arial);
+	passiveText.setOutlineColor(sf::Color::Black);
+	passiveText.setOutlineThickness(3);
 	passiveText.setCharacterSize(60);
 	passiveText.setFillColor(sf::Color::White);
 	passiveText.setPosition(1290, 0);

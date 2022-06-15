@@ -10,6 +10,7 @@ public:
 	void tryBuy(float* playerMoney, float* , float*); 
 	button buy;
 	st icon;
+	sf::VertexArray border; 
 	void setCost(float); 
 	void setClickModifier(float);
 	void setPassiveModifier(float);

@@ -6,6 +6,13 @@ modifier::modifier(std::string iconPath)
 	
 	buy.loadButtonFromImage("./sprites/greenBuy.png");
 	buy.centre();
+
+	costText.setOutlineColor(sf::Color::Black);
+	costText.setOutlineThickness(1); 
+
+	border = sf::VertexArray(sf::PrimitiveType::Quads, 4);
+	//border[0].position(icon.getBounds);
+	
 }
 modifier::modifier()
 {
