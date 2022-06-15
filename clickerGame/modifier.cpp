@@ -55,8 +55,8 @@ void modifier::setPassiveModifier(float _float)
 void modifier::setPosition(sf::Vector2f pos)
 {
 	icon.setPosition(pos);
-	buy.setPosition(pos.x + 160, pos.y); 
-	redBuy.setPosition(pos.x + 160, pos.y); 
-	costText.setPosition(pos.x + 103, pos.y - 70);
-	modifierText.setPosition(pos.x - 200, pos.y - 20);
+	buy.setPosition(pos.x + 160, pos.y + 10); 
+	redBuy.setPosition(pos.x + 160, pos.y + 10); 
+	costText.setPosition(pos.x + 103, pos.y - 60);
+	modifierText.setPosition(pos.x - 210, pos.y - 20);
 }
