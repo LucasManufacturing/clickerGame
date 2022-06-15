@@ -6,8 +6,8 @@
 #include <loadSave.h>
 #include <startMenu.h>
 
-//add exit button to menus
-//add back button 
+//implement background options/upgrades
+
 //add help button
 //add about button 
 int main()

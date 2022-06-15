@@ -120,8 +120,8 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 	//Cursor.updatePos();
 	Cursor.setPosition(mousePos);
 	moneyText.setString(to_dollar(_player->money)); 
-	clickText.setString(to_dollar(_player->clickValue)); 
-	passiveText.setString(to_dollar(_player->passiveValue));
+	clickText.setString(to_dollar(_player->clickValue) + "/click"); 
+	passiveText.setString(to_dollar(_player->passiveValue) + "/sec");
 	_player->money = _player->money + (_player->passiveValue/framesPerTic);
 
 	//Cursor and Mouse
@@ -200,6 +200,7 @@ returnFrame * clickerBrain::update(playerSave * _player, sf::Vector2f mousePos)
 			(*i)->costText.setFillColor(sf::Color::Red);
 		}
 		
+		newFrame.frame.draw((*i)->modifierText); 
 		newFrame.frame.draw((*i)->icon);
 		newFrame.frame.draw((*i)->costText);
 	}

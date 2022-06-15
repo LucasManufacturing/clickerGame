@@ -43,11 +43,13 @@ void modifier::setCost(float _float)
 void modifier::setClickModifier(float _float)
 {
 	clickValueModifier = _float; 
+	modifierText.setString("+" + std::to_string((int)_float) + "/click");
 }
 
 void modifier::setPassiveModifier(float _float)
 {
 	passiveValueModifier = _float;
+	modifierText.setString("+" + std::to_string((int)_float) + "/sec");
 }
 
 void modifier::setPosition(sf::Vector2f pos)
@@ -55,6 +57,6 @@ void modifier::setPosition(sf::Vector2f pos)
 	icon.setPosition(pos);
 	buy.setPosition(pos.x + 160, pos.y); 
 	redBuy.setPosition(pos.x + 160, pos.y); 
-	costText.setPosition(pos.x + 103, pos.y - 65);
-//	modifierText.setPosition(pos.x + )
+	costText.setPosition(pos.x + 103, pos.y - 70);
+	modifierText.setPosition(pos.x - 200, pos.y - 20);
 }
