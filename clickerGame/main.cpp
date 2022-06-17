@@ -5,6 +5,7 @@
 #include <iostream>
 #include <loadSave.h>
 #include <startMenu.h>
+#include <infoScreen.h>
 
 //implement background options/upgrades
 
@@ -25,7 +26,8 @@ int main()
 	menu menuScreen(&player); //intializes a menu object which handles the menu screen
 	newGame newScreen; //intializes a newGame object which handles the creation of a new game
 	loadSave loadexample(&player);
-	
+	infoScreen help("./sprites/howTo.png", 5);
+	infoScreen about("./sprites/about.png", 6); 
 
 	returnFrame *currentGameFrame = &returnFrame(); 
 	returnFrame * menu = &returnFrame(); 
@@ -40,7 +42,7 @@ int main()
 	while (window.isOpen()) //game runs whilst window is open
 	{
 		sf::Sprite gameFrame; //sprites to hold a new gameFrame frame
-		sf::Sprite menuFrame; //sprites to hold a new menuFrame frame
+		sf::Sprite menuFrame; //sprites to hold any new menu frame
 
 		int mouseWheelMovement = 0;
 
@@ -144,6 +146,36 @@ int main()
 			player.saveGame(); 
 			window.close();
 			break;
+		case 5: //Help Page
+			gameFrame.setColor(sf::Color(223, 232, 241, 125));
+			gameFrame.setTexture(currentGameFrame->frame.getTexture());
+			menu = help.update(mousePos);
+			menuFrame.setTexture(menu->frame.getTexture());
+			loading = menu->value;
+			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
+			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));
+			window.draw(gameFrame);
+			if (player.saveName.empty())
+			{
+				window.draw(backdrop);
+			}
+			window.draw(menuFrame);
+			break;
+		case 6: //About Page
+			gameFrame.setColor(sf::Color(223, 232, 241, 125));
+			gameFrame.setTexture(currentGameFrame->frame.getTexture());
+			menu = about.update(mousePos);
+			menuFrame.setTexture(menu->frame.getTexture());
+			loading = menu->value;
+			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
+			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));
+			window.draw(gameFrame);
+			if (player.saveName.empty())
+			{
+				window.draw(backdrop);
+			}
+			window.draw(menuFrame);
+		break;
 		default: 
 			std::cout << "Error - Main.cpp Screen Switch has defaulted!"; //Requires some error notification as this switch should never default and may be hard to debug without this flag.
 			player.saveGame();

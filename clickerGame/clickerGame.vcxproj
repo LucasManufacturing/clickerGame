@@ -143,6 +143,7 @@
     <ClCompile Include="clickerBrain.cpp" />
     <ClCompile Include="counter.cpp" />
     <ClCompile Include="cursor.cpp" />
+    <ClCompile Include="infoScreen.cpp" />
     <ClCompile Include="loadSave.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="clickerBrain.h" />
     <ClInclude Include="counter.h" />
     <ClInclude Include="cursor.h" />
+    <ClInclude Include="infoScreen.h" />
     <ClInclude Include="loadSave.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="modifier.h" />

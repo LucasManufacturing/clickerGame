@@ -33,12 +33,23 @@ menu::menu(playerSave * _player)
 	back.loadButtonFromImage("./sprites/back.png");
 	back.setScale(sf::Vector2f(2.5, 2.5));
 	back.centre();
-	back.setPosition(960, 450);
+	back.setPosition(960, 650);
 
 	exit.loadButtonFromImage("./sprites/exit.png");
 	exit.setScale(sf::Vector2f(2.5, 2.5));
 	exit.centre();
-	exit.setPosition(960, 550);
+	exit.setPosition(960, 750);
+
+	help.loadButtonFromImage("./sprites/redBuy.png");
+	help.setScale(sf::Vector2f(2.5, 2.5));
+	help.centre();
+	help.setPosition(960, 550);
+
+	about.loadButtonFromImage("./sprites/greenBuy.png");
+	about.setScale(sf::Vector2f(2.5, 2.5));
+	about.centre();
+	about.setPosition(960, 450);
+
 }
 
 returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
@@ -93,6 +104,26 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		{
 			exit.released();
 		}
+
+		if (help.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			help.pressed(true);
+			newFrame.value = 5;
+		}
+		else
+		{
+			help.released();
+		}
+
+		if (about.getGlobalBounds().contains(Cursor.getPosition()))
+		{
+			about.pressed(true);
+			newFrame.value = 6;
+		}
+		else
+		{
+			about.released();
+		}
 	}
 	else
 	{
@@ -116,6 +147,8 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 	newFrame.frame.draw(load);
 	newFrame.frame.draw(back);
 	newFrame.frame.draw(exit);
+	newFrame.frame.draw(help);
+	newFrame.frame.draw(about);
 	newFrame.frame.draw(name);
 	newFrame.frame.draw(Cursor); 
 	newFrame.frame.display();

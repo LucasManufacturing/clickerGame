@@ -20,6 +20,8 @@ private:
 	button exit;
 	button load; 
 	button newGame; 
+	button help; 
+	button about; 
 	std::list<button*> buttonList = { &newGame, &load };
 	st backgroundImg; 
 	st backgroundBox; 
