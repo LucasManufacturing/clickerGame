@@ -14,12 +14,12 @@ loadSave::loadSave(playerSave *_player)
 	knob.setPosition(1500, 400);
 
 	upArrow.loadButtonFromImage("./sprites/scrollarrow.png");
-	upArrow.setPosition(1440, 258);
+	upArrow.setPosition(1437.f, 259.5f);
 	upArrow.scale(2.f, 1.5);
 
 	downArrow.loadButtonFromImage("./sprites/scrollarrowDown.png");
 	downArrow.setOrigin(sf::Vector2f{ 0.f, 0.f });
-	downArrow.setPosition(1440, 535);
+	downArrow.setPosition(1437, 536);
 	downArrow.scale(2.f, 1.5);
 
 	title.setFont(arial);
@@ -45,7 +45,7 @@ loadSave::loadSave(playerSave *_player)
 //handles actions & generates a new frame for loading a save menu. 
 returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, int _keyCode)
 {
-	float mousePosYchange = (_mousePos.y - Cursor.getPosition().y) * 3; 
+	float mousePosYchange = (_mousePos.y - Cursor.getPosition().y); 
 	Cursor.setPosition(_mousePos); 
 	newFrame.frame.clear(sf::Color::Transparent);
 	newFrame.value = 3; 
@@ -57,83 +57,85 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	{
 		findSaveFiles(); 
 		sf::Mouse::setPosition(sf::Vector2i(700, 125));
-		exited = false;
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !mouseHeld)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && exited == false)
 	{
 		Cursor.pressed();
 		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
-		if (back.getGlobalBounds().contains(Cursor.getPosition()))
-		{
-			back.pressed(true);
-			newFrame.value = 0;
-		}
-		else
-		{
-			back.released();
-		}
-		if (knob.getGlobalBounds().contains(Cursor.getPosition())) 
+		if (knob.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			knob.pressed();
-			dragging = true; 
+			dragging = true;
 		}
-		else
+		if (dragging)
 		{
-			knob.released();
-		}
-
-		if (upArrow.getGlobalBounds().contains(Cursor.getPosition()))
-		{
-			upArrow.pressed();
-			viewY = viewY - 5; 
-			view.move(0.f, -5.f);
-		}
-		else
-		{
-			upArrow.released();
-		}
-
-		if (downArrow.getGlobalBounds().contains(Cursor.getPosition()))
-		{
-			downArrow.pressed();
-			viewY = viewY + 5;
-			view.move(0.f, 5.f);
-		}
-		else
-		{
-			downArrow.released();
-		}
-
-		for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
-		{
-			//checks to see if current loadBox is in view of the current scroll box
-			if (i->loadButton.getGlobalBounds().intersects(sf::FloatRect{0.f,(float)viewY,viewPos.x, viewPos.y}))
+			sf::Rect barBounds = bar.getGlobalBounds();
+			if (Cursor.getPosition().y < barBounds.top + barBounds.height - 10 && Cursor.getPosition().y > barBounds.top + 10)
 			{
-				sf::FloatRect scrollBoxBounds = (i)->loadButton.getGlobalBounds();
-				scrollBoxBounds = { 480 + scrollBoxBounds.left, 270 + scrollBoxBounds.top - viewY, scrollBoxBounds.width, scrollBoxBounds.height }; //translates the bounding boxes, so it matches with the displayed boxes
+				float oldViewY = viewY;
+				knob.move(0, mousePosYchange);
+				viewY = (loadBoxes.size()*50.f - 250) * ((knob.getPosition().y - 293) / 220);
+				view.move(0, viewY - oldViewY);
+			}
+		}
+		else //if knob is selected no other buttons are active. 
+		{
+			if (back.getGlobalBounds().contains(Cursor.getPosition()))
+			{
+				back.pressed(true);
+				newFrame.value = 0;
+			}
+			else
+			{
+				back.released();
+			}
+			if (upArrow.getGlobalBounds().contains(Cursor.getPosition()))
+			{
+				upArrow.pressed();
+				viewY = viewY - 5; 
+				view.move(0.f, -5.f);
+			}
+			else
+			{
+				upArrow.released();
+			}
 
-				if (scrollBoxBounds.contains(Cursor.getPosition()))
-				{
-					i->loadButton.pressed();
-					playerPtr->loadFile(i->loadName.getString());
+			if (downArrow.getGlobalBounds().contains(Cursor.getPosition()))
+			{
+				downArrow.pressed();
+				viewY = viewY + 5;
+				view.move(0.f, 5.f);
+			}
+			else
+			{
+				downArrow.released();
+			}
 
-					newFrame.value = 0;
-					mouseHeld = true;
-					exited = true;
-				}
-				else
+			for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
+			{
+				//checks to see if current loadBox is in view of the current scroll box
+				if (i->loadButton.getGlobalBounds().intersects(sf::FloatRect{ 0.f,(float)viewY,viewPos.x, viewPos.y }))
 				{
-					(i)->loadButton.released();
+					sf::FloatRect scrollBoxBounds = (i)->loadButton.getGlobalBounds();
+					scrollBoxBounds = { 480 + scrollBoxBounds.left, 270 + scrollBoxBounds.top - viewY, scrollBoxBounds.width, scrollBoxBounds.height }; //translates the bounding boxes, so it matches with the displayed boxes
+
+					if (scrollBoxBounds.contains(Cursor.getPosition()))
+					{
+						i->loadButton.pressed();
+						playerPtr->loadFile(i->loadName.getString());
+
+						newFrame.value = 0;
+					}
+					else
+					{
+						(i)->loadButton.released();
+					}
 				}
 			}
 		}
 	}
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) == false && mouseHeld) //stub asserts when user is choosing an option// entering from menu
-	{
-		mouseHeld = false; 
-		
-	}
+
 	else //if left click not pressed, release all buttons 
 	{
 		Cursor.released(); 
@@ -147,11 +149,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 		dragging = false; 
 	}
 
-	if (dragging)
-	{
-		viewY = viewY + (int)mousePosYchange;
-		view.move(0, (int)mousePosYchange);	
-	}
+	
 
 	if (viewY > loadBoxes.size()*50.f -250) //Checks to see if view is too far down, if it is it will bring it back to the end
 	{
@@ -182,6 +180,16 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 		newFrame.frame.draw(i->loadButton);
 		newFrame.frame.draw(i->loadName);
 	}
+
+	if (newFrame.value != 3) //sets a flag if leaving load menu. 
+	{
+		exited = true; 
+	}
+	else
+	{
+		exited = false; 
+	}
+
 	newFrame.frame.setView(newFrame.frame.getDefaultView()); 
 	
 	newFrame.frame.draw(title);

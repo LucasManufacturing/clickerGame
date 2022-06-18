@@ -13,6 +13,9 @@ modifier::modifier(std::string iconPath)
 	costText.setOutlineColor(sf::Color::Black);
 	costText.setOutlineThickness(1); 
 
+	modifierText.setOutlineColor(sf::Color::Black);
+	modifierText.setOutlineThickness(1);
+
 
 	
 }
@@ -58,5 +61,5 @@ void modifier::setPosition(sf::Vector2f pos)
 	buy.setPosition(pos.x + 160, pos.y + 10); 
 	redBuy.setPosition(pos.x + 160, pos.y + 10); 
 	costText.setPosition(pos.x + 103, pos.y - 60);
-	modifierText.setPosition(pos.x - 210, pos.y - 20);
+	modifierText.setPosition(pos.x - 215, pos.y - 20);
 }

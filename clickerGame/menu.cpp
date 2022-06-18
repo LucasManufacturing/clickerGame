@@ -12,9 +12,13 @@ menu::menu(playerSave * _player)
 	monoArial.loadFromFile("./fonts/arial_monospaced_mt.ttf");
 	name.setString(playerPTR->saveName);
 	name.setFont(monoArial);
-	name.setCharacterSize(40);
+	name.setCharacterSize(60);
 	name.setFillColor(sf::Color::White);
-	name.setPosition(800, 125);
+	name.setOutlineThickness(3);
+	name.setOutlineColor(sf::Color::Black); 
+	sf::Rect nameBounds = name.getLocalBounds(); 
+	name.setOrigin(nameBounds.left + nameBounds.width / 2.f, nameBounds.top + nameBounds.height / 2.f); 
+	name.setPosition(960, 125);
 
 	backgroundBox.setSprite("./sprites/menuBackgroundBox.png");
 	backgroundBox.centre();
@@ -40,12 +44,12 @@ menu::menu(playerSave * _player)
 	exit.centre();
 	exit.setPosition(960, 750);
 
-	help.loadButtonFromImage("./sprites/redBuy.png");
+	help.loadButtonFromImage("./sprites/Help.png");
 	help.setScale(sf::Vector2f(2.5, 2.5));
 	help.centre();
 	help.setPosition(960, 550);
 
-	about.loadButtonFromImage("./sprites/greenBuy.png");
+	about.loadButtonFromImage("./sprites/aboutButton.png");
 	about.setScale(sf::Vector2f(2.5, 2.5));
 	about.centre();
 	about.setPosition(960, 450);
@@ -55,7 +59,16 @@ menu::menu(playerSave * _player)
 returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 {
 	//Wiping and intialization for the new frame
-	name.setString(playerPTR->saveName);
+	if (name.getString() != playerPTR->saveName)
+	{
+		name.setString(playerPTR->saveName);
+		sf::Rect nameBounds = name.getLocalBounds();
+		
+		name.setOrigin((nameBounds.left + nameBounds.width) / 2.f, nameBounds.top + nameBounds.height / 2.f);
+		name.setPosition(960, 160);
+		std::cout << "do";
+	}
+	
 	newFrame.frame.clear(sf::Color::Transparent);
 	newFrame.value = 1;
 	Cursor.setPosition(mousePos); 

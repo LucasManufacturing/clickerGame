@@ -26,7 +26,7 @@ int main()
 	menu menuScreen(&player); //intializes a menu object which handles the menu screen
 	newGame newScreen; //intializes a newGame object which handles the creation of a new game
 	loadSave loadexample(&player);
-	infoScreen help("./sprites/howTo.png", 5);
+	infoScreen help("./sprites/howtoPlay.png", 5);
 	infoScreen about("./sprites/about.png", 6); 
 
 	returnFrame *currentGameFrame = &returnFrame(); 

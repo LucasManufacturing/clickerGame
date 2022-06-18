@@ -5,10 +5,12 @@ infoScreen::infoScreen(std::string _path, int _int)
 	newFrame.frame.create(1920, 1080);
 	text.setSprite(_path);
 	text.centre();
-	text.setPosition(960, 340); 
+	text.setPosition(960, 540); 
+
 	back.loadButtonFromImage("./sprites/back.png");
-	back.setPosition(960, 900);
-	back.setScale(2.f, 2.f); 
+	back.centre();
+	back.setPosition(960, 1000);
+	back.setScale(3.f, 3.f); 
 	Cursor.loadButtonFromImage("./sprites/hand.png"); 
 }
 returnFrame* infoScreen::update(sf::Vector2f _mousePos)
@@ -25,10 +27,15 @@ returnFrame* infoScreen::update(sf::Vector2f _mousePos)
 			back.pressed(); 
 			newFrame.value = 1;
 		}
+		else
+		{
+			back.released(); 
+		}
 	}
 	else
 	{
 		Cursor.released(); 
+		back.released(); 
 	}
 	newFrame.frame.draw(text);
 	newFrame.frame.draw(back);

@@ -27,12 +27,12 @@ startMenu::startMenu()
 	exit.centre();
 	exit.setPosition(960, 650);
 
-	help.loadButtonFromImage("./sprites/redBuy.png");
+	help.loadButtonFromImage("./sprites/Help.png");
 	help.setScale(sf::Vector2f(2.5, 2.5));
 	help.centre();
 	help.setPosition(960, 450);
 
-	about.loadButtonFromImage("./sprites/greenBuy.png");
+	about.loadButtonFromImage("./sprites/aboutButton.png");
 	about.setScale(sf::Vector2f(2.5, 2.5));
 	about.centre();
 	about.setPosition(960, 550);
