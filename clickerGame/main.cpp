@@ -52,7 +52,9 @@ int main()
 		while (window.pollEvent(event))//Handles new computer events
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				loading = 4; //In "Screen Switch" the window will close
+			}
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
