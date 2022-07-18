@@ -21,9 +21,6 @@
     <ClCompile Include="clickerBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="counter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,13 +56,7 @@
     <ClInclude Include="clickerBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="counter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="returnFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="spriteTools.h">
@@ -93,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="infoScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

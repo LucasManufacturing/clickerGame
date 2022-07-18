@@ -25,12 +25,12 @@ int main()
 	clickerBrain clickerScreen; //intializes a clickerBrain object which handles most gameplay features
 	menu menuScreen(&player); //intializes a menu object which handles the menu screen
 	newGame newScreen; //intializes a newGame object which handles the creation of a new game
-	loadSave loadexample(&player);
-	infoScreen help("./sprites/howtoPlay.png", 5);
-	infoScreen about("./sprites/about.png", 6); 
+	loadSave loadScreen(&player);
+	infoScreen helpScreen("./sprites/howtoPlay.png", 5);
+	infoScreen aboutScreen("./sprites/about.png", 6); 
 
-	returnFrame *currentGameFrame = &returnFrame(); 
-	returnFrame * menu = &returnFrame(); 
+	returnFrame *currentGameFrame = &returnFrame(); //Just explicitly intializes to eliminate possible crashes/error codes
+	returnFrame *menu = &returnFrame(); //Just explicitly intializes to eliminate possible crashes/error codes
 
 	st backdrop; 
 	backdrop.setSprite("./sprites/backGround.png");
@@ -71,17 +71,17 @@ int main()
 		window.clear(); //clears the screen ready for new frame to display
 
 		sf::Vector2f mousePos = { (float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y }; 
-		mousePos = sf::Vector2f(( mousePos.x * (1920.f / window.getSize().x)), mousePos.y * (1080.f / window.getSize().y));//1920, 1080 comes from default framesize of clickerBrain.cpp, 
+		mousePos = sf::Vector2f(( mousePos.x * (1920.f / window.getSize().x)), mousePos.y * (1080.f / window.getSize().y));//1920, 1080 comes from default framesize of clickerBrain.cpp||Will get relative mouse pos as all other screen natively render 1920,1080 
 
 		if (player.saveName.empty() && loading <= 1)
 		{
 			gameFrame.setColor(sf::Color::Yellow);
-			menu = startScreen.update(event, mousePos);
+			menu = startScreen.update(event, mousePos);//generates new frame
 			menuFrame.setTexture(menu->frame.getTexture());
 			loading = menu->value;
-			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));
-			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
-			window.draw(gameFrame);
+			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));//scale gameFrame up or down to fit display
+			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));//scale menuFrame up or down to fit display
+			window.draw(gameFrame); //draws first so it is background
 			if (player.saveName.empty())
 			{
 				window.draw(backdrop);
@@ -107,10 +107,10 @@ int main()
 			menu = menuScreen.update(event, mousePos);
 			menuFrame.setTexture(menu->frame.getTexture());
 			loading = menu->value; 
-			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));
+			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));//scale gameFrame up or down to fit display
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
-			window.draw(gameFrame);
-			window.draw(menuFrame);
+			window.draw(gameFrame);//draw first for background
+			window.draw(menuFrame);//draw last to appear ontop
 			break; 
 		case 2: //new Game
 			gameFrame.setColor(sf::Color(223, 232, 241, 125));
@@ -118,7 +118,6 @@ int main()
 			menu = newScreen.update(keyCode, mousePos, &player);
 			menuFrame.setTexture(menu->frame.getTexture());
 			loading = menu->value; 
-
 			gameFrame.scale((window.getSize().x / gameFrame.getLocalBounds().width), (window.getSize().y / gameFrame.getLocalBounds().height));
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
 			window.draw(gameFrame);
@@ -131,7 +130,7 @@ int main()
 		case 3: //loading
 			gameFrame.setColor(sf::Color(223, 232, 241, 125));
 			gameFrame.setTexture(currentGameFrame->frame.getTexture());
-			menu = loadexample.update(mouseWheelMovement, mousePos, keyCode); 
+			menu = loadScreen.update(mouseWheelMovement, mousePos, keyCode); 
 			menuFrame.setTexture(menu->frame.getTexture()); 
 			loading = menu->value; 
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
@@ -146,12 +145,12 @@ int main()
 			break;
 		case 4: //Exit Application
 			player.saveGame(); 
-			window.close();
+			window.close();//only expected place for application to legally close (apart from default case)
 			break;
 		case 5: //Help Page
 			gameFrame.setColor(sf::Color(223, 232, 241, 125));
 			gameFrame.setTexture(currentGameFrame->frame.getTexture());
-			menu = help.update(mousePos);
+			menu = helpScreen.update(mousePos);
 			menuFrame.setTexture(menu->frame.getTexture());
 			loading = menu->value;
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
@@ -166,7 +165,7 @@ int main()
 		case 6: //About Page
 			gameFrame.setColor(sf::Color(223, 232, 241, 125));
 			gameFrame.setTexture(currentGameFrame->frame.getTexture());
-			menu = about.update(mousePos);
+			menu = aboutScreen.update(mousePos);
 			menuFrame.setTexture(menu->frame.getTexture());
 			loading = menu->value;
 			menuFrame.scale((window.getSize().x / menuFrame.getLocalBounds().width), (window.getSize().y / menuFrame.getLocalBounds().height));
@@ -185,8 +184,6 @@ int main()
 			break; 
 		}
 
-
-		
 		window.display();//Displays frame to window 
 	}
 

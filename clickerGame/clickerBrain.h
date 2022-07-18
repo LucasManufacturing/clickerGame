@@ -1,7 +1,6 @@
  #pragma once
 #include <returnFrame.h>
 #include <clickerBtn.h>
-#include <counter.h>
 #include <cursor.h>
 #include <string.h>
 #include <SFML/Graphics.hpp>
@@ -14,12 +13,10 @@ class clickerBrain
 public:
 	clickerBrain(); 
 	returnFrame * update(playerSave * _player, sf::Vector2f); 
-	void click(); 
 private:
 	std::string to_dollar(float);
 	returnFrame newFrame; 
-	counter frameCount; 
-	bool trial;
+
 	cursor Cursor; 
 	sf::Font arial; 
 
@@ -37,5 +34,5 @@ private:
 
 	
 
-	int framesPerTic = 30; //should be one tic per second
+	const int framesPerTic = 30; //should be one tic per second
 };

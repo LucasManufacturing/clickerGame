@@ -100,10 +100,11 @@ returnFrame * startMenu::update(sf::Event event, sf::Vector2f mousePos)
 	}
 	else
 	{
-		for (auto i = buttonList.begin(); i != buttonList.end(); i++)
-		{
-			(*i)->released();
-		}
+		exit.released();
+		load.released();
+		newGame.released();
+		help.released();
+		about.released();
 		Cursor.released();
 	}
 

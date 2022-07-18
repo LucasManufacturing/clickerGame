@@ -18,7 +18,7 @@ public:
 	modifier stock;
 	modifier manager;
 
-	sf::Text title; 
+
 	sf::Font arial;
 
 	std::string saveName;

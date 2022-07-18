@@ -18,7 +18,6 @@ loadSave::loadSave(playerSave *_player)
 	upArrow.scale(2.f, 1.5);
 
 	downArrow.loadButtonFromImage("./sprites/scrollarrowDown.png");
-	downArrow.setOrigin(sf::Vector2f{ 0.f, 0.f });
 	downArrow.setPosition(1437, 536);
 	downArrow.scale(2.f, 1.5);
 
@@ -62,7 +61,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && exited == false)
 	{
 		Cursor.pressed();
-		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
+		//if knob is selected no other buttons are active. 
 		if (knob.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			knob.pressed();
@@ -79,9 +78,9 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 				view.move(0, viewY - oldViewY);
 			}
 		}
-		else //if knob is selected no other buttons are active. 
+		else 
 		{
-			if (back.getGlobalBounds().contains(Cursor.getPosition()))
+			if (back.getGlobalBounds().contains(Cursor.getPosition()))	//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
 			{
 				back.pressed(true);
 				newFrame.value = 0;
@@ -118,7 +117,8 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 				if (i->loadButton.getGlobalBounds().intersects(sf::FloatRect{ 0.f,(float)viewY,viewPos.x, viewPos.y }))
 				{
 					sf::FloatRect scrollBoxBounds = (i)->loadButton.getGlobalBounds();
-					scrollBoxBounds = { 480 + scrollBoxBounds.left, 270 + scrollBoxBounds.top - viewY, scrollBoxBounds.width, scrollBoxBounds.height }; //translates the bounding boxes, so it matches with the displayed boxes
+					//adjusts the loadBox bound to it's position in the scroll menu(how the user would really see it) 
+					scrollBoxBounds = { 480 + scrollBoxBounds.left, 270 + scrollBoxBounds.top - viewY, scrollBoxBounds.width, scrollBoxBounds.height }; 
 
 					if (scrollBoxBounds.contains(Cursor.getPosition()))
 					{
@@ -135,7 +135,6 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 			}
 		}
 	}
-
 	else //if left click not pressed, release all buttons 
 	{
 		Cursor.released(); 
@@ -146,6 +145,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 		knob.released();
 		downArrow.released();
 		upArrow.released();
+		back.released();
 		dragging = false; 
 	}
 
@@ -167,13 +167,13 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 	//updates knob position
 	knob.setPosition(1445.f, 293 + (220 * (viewY / (loadBoxes.size()*50.f - 250))));
 
-	switch (_keyCode)
+	switch (_keyCode) //using switch as in future more menu binds may be needed. 
 	{
 	case 60://tab
 		newFrame.value = 1; 
 	}
 
-	newFrame.frame.setView(view);
+	newFrame.frame.setView(view); //sets frame to view looking at loadBoxes - draws biew objects. 
 	//Draws all the boxes 
 	for (auto i = loadBoxes.begin(); i != loadBoxes.end(); i++)
 	{
@@ -190,7 +190,7 @@ returnFrame* loadSave::update(int _mouseWheelMovement, sf::Vector2f _mousePos, i
 		exited = false; 
 	}
 
-	newFrame.frame.setView(newFrame.frame.getDefaultView()); 
+	newFrame.frame.setView(newFrame.frame.getDefaultView()); //resets the view back to default to draw static objects. 
 	
 	newFrame.frame.draw(title);
 	newFrame.frame.draw(bar);
@@ -224,7 +224,7 @@ void loadSave::findSaveFiles()
 	{
 		int index = std::distance(saves.begin(), i); //finds integer value of the iterator position 
 
-		loadBox _loadBox;
+		loadBox _loadBox; //placeholder
 		_loadBox.loadButton.loadButtonFromImage("./sprites/loadBox.png");
 		_loadBox.loadName.setString((*i));
 		_loadBox.loadName.setFont(arial);
@@ -232,10 +232,9 @@ void loadSave::findSaveFiles()
 		_loadBox.loadName.setFillColor(sf::Color::Red);
 
 		_loadBox.loadButton.scale(3.f, 1);
-		_loadBox.setPosition(sf::Vector2f{ 0.f, (index * 50.f) });
+		_loadBox.setPosition(sf::Vector2f{ 0.f, (index * 50.f) }); //position below last loadBox
 
 		loadBoxes.push_back(_loadBox);
-		std::cout << index << *i << "\n";
 	}
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <returnFrame.h>
-#include <counter.h>
 #include <cursor.h>
 #include <string.h>
 #include <SFML/Graphics.hpp>

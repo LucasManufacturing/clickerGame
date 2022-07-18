@@ -143,7 +143,6 @@
   <ItemGroup>
     <ClCompile Include="button.cpp" />
     <ClCompile Include="clickerBrain.cpp" />
-    <ClCompile Include="counter.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="infoScreen.cpp" />
     <ClCompile Include="loadSave.cpp" />
@@ -158,7 +157,6 @@
   <ItemGroup>
     <ClInclude Include="button.h" />
     <ClInclude Include="clickerBrain.h" />
-    <ClInclude Include="counter.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="infoScreen.h" />
     <ClInclude Include="loadSave.h" />

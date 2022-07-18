@@ -4,7 +4,6 @@ menu::menu(playerSave * _player)
 {
 	playerPTR = _player;
 	newFrame.frame.create(1920, 1080);
-	Cursor.loadButtonFromImage("./sprites/hand.png"); 
 	backgroundImg.setSprite("./sprites/menuBackground.png");
 	backgroundImg.centre(); 
 	backgroundImg.setRelativePosition(1.f / 2, 1.f / 2);
@@ -16,8 +15,6 @@ menu::menu(playerSave * _player)
 	name.setFillColor(sf::Color::White);
 	name.setOutlineThickness(3);
 	name.setOutlineColor(sf::Color::Black); 
-	sf::Rect nameBounds = name.getLocalBounds(); 
-	name.setOrigin(nameBounds.left + nameBounds.width / 2.f, nameBounds.top + nameBounds.height / 2.f); 
 	name.setPosition(960, 125);
 
 	backgroundBox.setSprite("./sprites/menuBackgroundBox.png");
@@ -66,7 +63,6 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		
 		name.setOrigin((nameBounds.left + nameBounds.width) / 2.f, nameBounds.top + nameBounds.height / 2.f);
 		name.setPosition(960, 160);
-		std::cout << "do";
 	}
 	
 	newFrame.frame.clear(sf::Color::Transparent);
@@ -77,17 +73,20 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 	{
 		Cursor.pressed();
 
-		//If user clicks "New Game" user will be sent to the new game menu, code located in newGame.h & newGame.cpp
+		//If user clicks "New Game" user will be sent to the new game menu, code located in newGame module.
 		if (newGame.getGlobalBounds().contains(Cursor.getPosition())) 
 		{
+			//button appears pressed
 			newGame.pressed(true);
+			//2 is the New Game screen's value used in the screen switch in main.cpp
 			newFrame.value = 2;
 		}
 		else
 		{
+			//if button wasn't pressed, it must appear unpressed. 
 			newGame.released();
 		}
-		//If user clicks "Load" user will be sent to the load menu, code located in loadSave.h & loadSave.cpp
+		//If user clicks "Load" user will be sent to the load menu, code located in loadSave module.
 		if (load.getGlobalBounds().contains(Cursor.getPosition())) 
 		{
 			load.pressed(true);
@@ -97,7 +96,7 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		{
 			load.released();
 		}
-		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain.h & clickerBrain.cpp
+		//If user clicks "Back" user will be sent to the game Screen, code located in clickerBrain module.
 		if (back.getGlobalBounds().contains(Cursor.getPosition())) 
 		{
 			back.pressed(true);
@@ -117,7 +116,7 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		{
 			exit.released();
 		}
-
+		//If user clicks "Help", the user will be sent to the help page, code located in infoScreen module.
 		if (help.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			help.pressed(true);
@@ -127,7 +126,7 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 		{
 			help.released();
 		}
-
+		//If user clicks "About", the user will be sent to the about page, code located in infoScreen module.
 		if (about.getGlobalBounds().contains(Cursor.getPosition()))
 		{
 			about.pressed(true);
@@ -140,16 +139,11 @@ returnFrame * menu::update(sf::Event event, sf::Vector2f mousePos)
 	}
 	else
 	{
-		for (auto i = buttonList.begin(); i != buttonList.end(); i++)
-		{
-			(*i)->released();
-		}
 		Cursor.released();
 	}
 
-	switch (event.key.code)
+	if (event.key.code == 60)//Tab key, will back out same as back button
 	{
-	case 60: //Key Code 60 is Tab Button
 		newFrame.value = 0; //Next Frame the game screen will become active. 
 	}
 
